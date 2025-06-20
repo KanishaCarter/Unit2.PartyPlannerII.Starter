@@ -13,29 +13,45 @@ For this workshop, you'll be starting from scratch! You are highly encouraged to
 - All thrown errors are explicitly caught with a try...catch statement.
 */
 
-// async function fetches array of parties from Api
-async function getEvent() {
-    try {
-        const body = document.querySelector("body");
-        const container = document.createElement("div");
-        body.appendChild(container);
-        container.innerHTML = `
-        <ul>Parties List</ul>
-        `
-        const ul = document.querySelector("ul");
-        const response = await fetch(`https://fsa-crud-2aa9294fe819.herokuapp.com/api/#tag/Events`);
-        const data = response.json();
-        const dataArray = [];
-        dataArray.push(data);
+const body = document.querySelector("body");
+const container = document.createElement("div");
+body.appendChild(container);
+container.innerHTML = `
+<h1>Parties list</h1>
+<ul></ul>
+`;
+const ul = document.querySelector("ul");
+const li = document.createElement("li");
 
-        dataArray.map((event) => {
-            const li = document.createElement("li");
-            li = event.name;
-            ul.appendChild(li);  
-        })    
+// async function fetches array of parties from Api
+async function getEvents() {
+    try {
+        const response = await fetch(`https://fsa-crud-2aa9294fe819.herokuapp.com/api/2503-FTB-ET-WEB-PT/events`);
+        const data = await response.json();
+        const events = data.data;
+        return events;
     } catch (error) {
         console.error(error.message);
     }
 }
 
-getEvent();
+async function displayEvents(){
+    try {
+        const result = await getEvents();
+        const events = result;
+        for (let i = 0; i < events.length; i++) {
+            const li = document.createElement("li");
+            li.textContent = events[i].name;
+            ul.appendChild(li);
+        };
+    } catch (error) {
+        console.error(error.message);
+        li.textContent = `Error loading content ${error.message}`;
+    }
+}
+
+async function clickedEvent(){
+    const result = 
+}
+    
+displayEvents();
